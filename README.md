@@ -1,2 +1,2 @@
 # reddit-search
-Playing around with the reddit api
+Playing around with the reddit api using es6, fetch and parcel
