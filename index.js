@@ -19,7 +19,7 @@ searchForm.addEventListener('submit', (e) => {
   // Search Function
   reddit.search(searchTerm, searchLimit, sortBy)
     .then(posts => {
-      let output = '<div class="card-column">';
+      let output = '<div class="card-columns">';
       console.log(posts);
       // loop through all posts
       posts.forEach(post => {
