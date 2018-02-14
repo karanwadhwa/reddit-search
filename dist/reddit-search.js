@@ -70,18 +70,43 @@ require = (function (modules, cache, entry) {
   // Override the current require with this new one
   return newRequire;
 })({4:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  search: (searchTerm, searchLimit, sortBy) => {
+    return fetch(`http://www.reddit.com/search.json?q=${searchTerm}&sort=${sortBy}&limit=${searchLimit}`).then(res => res.json()).then(data => console.log(data)).catch(err => console.log(err));
+  }
+};
+},{}],2:[function(require,module,exports) {
+'use strict';
+
+var _redditAPI = require('./redditAPI.js');
+
+var _redditAPI2 = _interopRequireDefault(_redditAPI);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 
 // Form event listener
-searchForm.addEventListener('submit', (e) => {
+searchForm.addEventListener('submit', e => {
   const searchTerm = searchInput.value;
   const searchLimit = document.getElementById('limit').value;
   const sortBy = document.querySelector('input[name="sort-by"]:checked').value;
 
-  if(searchTerm==='') {
+  if (searchTerm === '') {
     showMessage('Enter something to search. Duh!', 'alert-danger');
   }
+
+  // Clear Input
+  searchInput.value = '';
+
+  // Search Function
+  _redditAPI2.default.search(searchTerm, searchLimit, sortBy).then(results => console.log(results));
 
   e.preventDefault();
 });
@@ -105,7 +130,7 @@ function showMessage(message, className) {
     document.querySelector('.alert').remove();
   }, 3000);
 }
-},{}],11:[function(require,module,exports) {
+},{"./redditAPI.js":4}],6:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -125,7 +150,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '50249' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '54238' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -226,5 +251,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[11,4])
+},{}]},{},[6,2])
 //# sourceMappingURL=/dist/reddit-search.map
