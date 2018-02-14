@@ -18,16 +18,17 @@ searchForm.addEventListener('submit', (e) => {
 
   // Search Function
   reddit.search(searchTerm, searchLimit, sortBy)
-    .then(results => {
+    .then(posts => {
       let output = '<div class="card-column">';
+      console.log(posts);
       // loop through all posts
-      results.forEach(post => {
+      posts.forEach(post => {
         output += `
           <div class="card mb-2">
             <img class="card-img-top" src="..." alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">${post.title}</h5>
-              <p class="card-text">${post.selftext}</p>
+              <p class="card-text">${truncateString(post.selftext, 10)}</p>
               <a href="${post.url}" target="_blank
               " class="btn btn-primary">Read More</a>
               <hr>
@@ -62,4 +63,13 @@ function showMessage(message, className) {
   setTimeout(() => {
     document.querySelector('.alert').remove();
   }, 3000);
+}
+
+// Truncate String function
+function truncateString(str, limit) {
+  // looks for the first space after <limit> number of characters in the str
+  const shortened = str.indexOf(' ', limit);
+  // if no space is found i.e either continous text or empty string, str is returned as is
+  if (shortened == -1) return str;
+  return str.substring(0, shortened);
 }
