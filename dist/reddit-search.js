@@ -77,7 +77,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   search: (searchTerm, searchLimit, sortBy) => {
-    return fetch(`http://www.reddit.com/search.json?q=${searchTerm}&sort=${sortBy}&limit=${searchLimit}`).then(res => res.json()).then(data => console.log(data)).catch(err => console.log(err));
+    return fetch(`http://www.reddit.com/search.json?q=${searchTerm}&sort=${sortBy}&limit=${searchLimit}`).then(res => res.json()).then(data => {
+      return data.data.children.map(data => data.data);
+    }).catch(err => console.log(err));
   }
 };
 },{}],2:[function(require,module,exports) {
@@ -106,7 +108,28 @@ searchForm.addEventListener('submit', e => {
   searchInput.value = '';
 
   // Search Function
-  _redditAPI2.default.search(searchTerm, searchLimit, sortBy).then(results => console.log(results));
+  _redditAPI2.default.search(searchTerm, searchLimit, sortBy).then(results => {
+    let output = '<div class="card-column">';
+    // loop through all posts
+    results.forEach(post => {
+      output += `
+          <div class="card mb-2">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">${post.title}</h5>
+              <p class="card-text">${post.selftext}</p>
+              <a href="${post.url}" target="_blank
+              " class="btn btn-primary">Read More</a>
+              <hr>
+              <span class="badge badge-secondary">Subreddit: ${post.subreddit}</span>
+              <span class="badge badge-dark">Score: ${post.score}</span>
+            </div>
+          </div>
+        `;
+    });
+    output += '</div>';
+    document.getElementById('results').innerHTML = output;
+  });
 
   e.preventDefault();
 });

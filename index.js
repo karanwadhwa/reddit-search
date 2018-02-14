@@ -18,7 +18,28 @@ searchForm.addEventListener('submit', (e) => {
 
   // Search Function
   reddit.search(searchTerm, searchLimit, sortBy)
-    .then(results => console.log(results));
+    .then(results => {
+      let output = '<div class="card-column">';
+      // loop through all posts
+      results.forEach(post => {
+        output += `
+          <div class="card mb-2">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">${post.title}</h5>
+              <p class="card-text">${post.selftext}</p>
+              <a href="${post.url}" target="_blank
+              " class="btn btn-primary">Read More</a>
+              <hr>
+              <span class="badge badge-secondary">Subreddit: ${post.subreddit}</span>
+              <span class="badge badge-dark">Score: ${post.score}</span>
+            </div>
+          </div>
+        `
+      });
+      output += '</div>';
+      document.getElementById('results').innerHTML = output;
+    });
 
   e.preventDefault();
 });
