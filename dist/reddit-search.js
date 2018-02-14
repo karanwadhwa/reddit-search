@@ -70,8 +70,19 @@ require = (function (modules, cache, entry) {
   // Override the current require with this new one
   return newRequire;
 })({4:[function(require,module,exports) {
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('search-input');
 
-},{}],6:[function(require,module,exports) {
+// Form event listener
+searchForm.addEventListener('submit', (e) => {
+  const searchTerm = searchInput.value;
+  const searchLimit = document.getElementById('limit').value;
+  const sortBy = document.querySelector('input[name="sort-by"]:checked').value;
+
+  e.preventDefault();
+});
+
+},{}],9:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -91,7 +102,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '55339' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '50249' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -192,5 +203,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[6,4])
+},{}]},{},[9,4])
 //# sourceMappingURL=/dist/reddit-search.map
