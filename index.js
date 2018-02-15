@@ -18,14 +18,19 @@ searchForm.addEventListener('submit', (e) => {
 
   // Search Function
   reddit.search(searchTerm, searchLimit, sortBy)
-    .then(posts => {
-      let output = '<div class="card-columns">';
+    .then(posts => {let output = '<div class="card-columns">';
       console.log(posts);
       // loop through all posts
       posts.forEach(post => {
+        // check if preview image exists
+        var img = 'https://upload.wikimedia.org/wikipedia/en/8/82/Reddit_logo_and_wordmark.svg';
+        if (post.preview) {
+          img = post.preview.images[0].source.url
+        }
+
         output += `
           <div class="card mb-2">
-            <img class="card-img-top" src="..." alt="Card image cap">
+            <img class="card-img-top" src="${img}" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">${post.title}</h5>
               <p class="card-text">${truncateString(post.selftext, 10)}</p>
